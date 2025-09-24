@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chhattisgarh Institute of Technology</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div >
+                        <img class="logo" src="images/kirorimal.jpg">
+                </div>
+                <div class="college-info">
+                    <h1 class="college-name">Chhattisgarh Institute of Technology</h1>
+                    <p class="college-location">Raigarh, Chhattisgarh</p>
+                </div>
+            </div>
+            <div class="blue-strip"></div>
+        </div>
+        
+        <!-- Scrolling Marquee -->
+        <div class="marquee-container">
+            <div class="marquee-text">
+                Excellence in Technical Education • Innovation & Research • Building Future Engineers • Quality Education for All
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="navigation">
+        <ul class="nav-menu">
+            <li><a href="#principal">Principal</a></li>
+            <li><a href="#alumni">Alumni</a></li>
+            <li><a href="#feedback">Student Feedback</a></li>
+            <li><a href="#help">Help Desk</a></li>
+            <li><a href="#payment">Payment</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Gallery Section -->
+        <section class="gallery-section">
+            <h2 class="section-title">GALLERY</h2>
+
+            <style>
+                /* Slider styles */
+                .slider {
+                    position: relative;
+                    width: 100%;
+                    max-width: 900px;
+                    margin: 0 auto;
+                    overflow: hidden;
+                }
+                .slider-track {
+                    display: flex;
+                    transition: transform 0.6s ease;
+                    will-change: transform;
+                }
+                .slide {
+                    flex: 0 0 100%;
+                    box-sizing: border-box;
+                    padding: 8px;
+                }
+                .slide figure {
+                    margin: 0;
+                    background: #fff;
+                    border-radius: 6px;
+                    overflow: hidden;
+                }
+                .slide img {
+                    display: block;
+                    width: 100%;
+                    height: 320px;            /* same height for all images */
+                    object-fit: cover;        /* crop/scale to keep uniform size */
+                    cursor: pointer;
+                }
+                .slide figcaption {
+                    padding: 8px;
+                    text-align: center;
+                    font-size: 0.95rem;
+                    background: #f7f7f7;
+                }
+
+                /* Prev/Next buttons */
+                .slider-btn {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    background: rgba(0,0,0,0.45);
+                    color: #fff;
+                    border: none;
+                    padding: 8px 12px;
+                    font-size: 1.6rem;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    z-index: 10;
+                }
+                .slider-btn.prev { left: 8px; }
+                .slider-btn.next { right: 8px; }
+
+                /* Dots */
+                .slider-dots {
+                    text-align: center;
+                    margin-top: 10px;
+                }
+                .slider-dot {
+                    display: inline-block;
+                    width: 10px;
+                    height: 10px;
+                    margin: 0 6px;
+                    background: #ccc;
+                    border-radius: 50%;
+                    cursor: pointer;
+                }
+                .slider-dot.active { background: #333; }
+
+                /* Responsive */
+                @media (max-width: 600px) {
+                    .slide img { height: 220px; }
+                }
+            </style>
+
+            <div class="slider" aria-label="Image gallery slider">
+                <button class="slider-btn prev" aria-label="Previous slide">‹</button>
+                <div class="slider-track">
+                    <div class="slide">
+                        <figure class="gallery-item">
+                            <img src="images/gallery1.jpg" alt="Gallery 1" onclick="openLightbox(this.src,'Independence day')">
+                            <figcaption>Independence day</figcaption>
+                        </figure>
+                    </div>
+                    <div class="slide">
+                        <figure class="gallery-item">
+                            <img src="images/gallery2.jpg" alt="Gallery 2" onclick="openLightbox(this.src,'Independence day 2025')">
+                            <figcaption>Independence Day 2025</figcaption>
+                        </figure>
+                    </div>
+                    <div class="slide">
+                        <figure class="gallery-item">
+                            <img src="images/gallery3.jpg" alt="Gallery 3" onclick="openLightbox(this.src,'Placement')">
+                            <figcaption>Placement </figcaption>
+                        </figure>
+                    </div>
+                    <div class="slide">
+                        <figure class="gallery-item">
+                            <img src="images/gallery4.jpg" alt="Gallery 4" onclick="openLightbox(this.src,'Placement Talk')">
+                            <figcaption>Placement Talk</figcaption>
+                        </figure>
+                    </div>
+                </div>
+                <button class="slider-btn next" aria-label="Next slide">›</button>
+            </div>
+
+            <div class="slider-dots" aria-hidden="false"></div>
+
+            <!-- Lightbox -->
+            <div id="lightbox" class="lightbox" onclick="closeLightbox()" style="display:none;position:fixed;inset:0;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);z-index:9999;">
+                <div style="max-width:90%;max-height:90%;text-align:center;">
+                    <img id="lightbox-img" src="" alt="" style="max-width:100%;max-height:80vh;border-radius:4px;">
+                    <p id="lightbox-caption" style="color:#fff;margin-top:8px;"></p>
+                </div>
+            </div>
+
+            <script>
+                (function(){
+                    const track = document.querySelector('.slider-track');
+                    const slides = Array.from(document.querySelectorAll('.slide'));
+                    const prevBtn = document.querySelector('.slider-btn.prev');
+                    const nextBtn = document.querySelector('.slider-btn.next');
+                    const dotsContainer = document.querySelector('.slider-dots');
+
+                    let current = 0;
+                    let slideWidth = slides[0].getBoundingClientRect().width;
+                    let autoplayInterval;
+
+                    // create dots
+                    slides.forEach((_, i) => {
+                        const d = document.createElement('span');
+                        d.className = 'slider-dot' + (i === 0 ? ' active' : '');
+                        d.dataset.index = i;
+                        d.addEventListener('click', () => goToSlide(i));
+                        dotsContainer.appendChild(d);
+                    });
+
+                    function updateDots() {
+                        document.querySelectorAll('.slider-dot').forEach((dot, idx) => {
+                            dot.classList.toggle('active', idx === current);
+                        });
+                    }
+
+                    function goToSlide(index) {
+                        current = (index + slides.length) % slides.length;
+                        track.style.transform = 'translateX(' + (-current * slideWidth) + 'px)';
+                        updateDots();
+                        restartAutoplay();
+                    }
+
+                    function nextSlide() { goToSlide(current + 1); }
+                    function prevSlide() { goToSlide(current - 1); }
+
+                    nextBtn.addEventListener('click', nextSlide);
+                    prevBtn.addEventListener('click', prevSlide);
+
+                    window.addEventListener('resize', () => {
+                        slideWidth = slides[0].getBoundingClientRect().width;
+                        goToSlide(current); // reposition
+                    });
+
+                    function startAutoplay() {
+                        autoplayInterval = setInterval(nextSlide, 3500);
+                    }
+                    function stopAutoplay() {
+                        clearInterval(autoplayInterval);
+                    }
+                    function restartAutoplay() {
+                        stopAutoplay();
+                        startAutoplay();
+                    }
+
+                    // pause on hover
+                    document.querySelector('.slider').addEventListener('mouseenter', stopAutoplay);
+                    document.querySelector('.slider').addEventListener('mouseleave', startAutoplay);
+
+                    // initialize
+                    slideWidth = slides[0].getBoundingClientRect().width;
+                    goToSlide(0);
+                    startAutoplay();
+                })();
+            </script>
+                </section>
+
+                <script>
+                function openLightbox(src, caption){
+                    var lb = document.getElementById('lightbox');
+                    document.getElementById('lightbox-img').src = src;
+                    document.getElementById('lightbox-caption').textContent = caption || '';
+                    lb.style.display = 'flex';
+                }
+                function closeLightbox(){
+                    document.getElementById('lightbox').style.display = 'none';
+                }
+                </script>
+        <!-- Notice Board -->
+        <section class="notice-board">
+            <h2 class="notice-title">Notice Board</h2>
+            <div class="notice-content">
+                <div class="notice-item">
+                    <span class="notice-date">06/09/2025</span>
+                    <span class="notice-text">Admission process for new academic session 2025-26 has started</span>
+                </div>
+                <div class="notice-item">
+                    <span class="notice-date">05/09/2025</span>
+                    <span class="notice-text">Annual examination results declared for all departments</span>
+                </div>
+                <div class="notice-item">
+                    <span class="notice-date">04/09/2025</span>
+                    <span class="notice-text">Technical fest registration open till 15th September</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login Buttons -->
+        <section class="login-section">
+            <button class="login-btn teacher-login">👨‍🏫 lecturer Login</button>
+            <button class="login-btn staff-login">👥 Staff Login</button>
+            <button class="login-btn student-login">🎓 Student Login</button>
+        </section>
+
+        <!-- Expandable Menu Sections -->
+        <section class="menu-sections">
+            <!-- Institute Section -->
+            <div class="menu-card">
+                <div class="menu-header" onclick="toggleMenu('institute')">
+                    <h3>🏛️ Institute</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="menu-content" id="institute">
+                    <a href="#principal">Principal</a>
+                    <a href="#affiliation">Affiliation</a>
+                    <a href="#setup">Section Setup</a>
+                    <a href="#staff">Faculties & Staff</a>
+                </div>
+            </div>
+
+            <!-- Students Corner -->
+            <div class="menu-card">
+                <div class="menu-header" onclick="toggleMenu('students')">
+                    <h3>🎓 Students Corner</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="menu-content" id="students">
+                    <a href="#council">Student Council</a>
+                    <a href="#syllabus">Syllabus</a>
+                    <a href="#scholarship">Scholarship</a>
+                    <a href="#calendar">Academic Calendar</a>
+                    <a href="#timetable">Time Table</a>
+                    <a href="#result">Result</a>
+                </div>
+            </div>
+
+            <!-- Departments -->
+            <div class="menu-card">
+                <div class="menu-header" onclick="toggleMenu('departments')">
+                    <h3>🏗️ Departments</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="menu-content" id="departments">
+                    <a href="#civil">Civil Engineering</a>
+                    <a href="#cse">Computer Science Engineering</a>
+                    <a href="#electrical">Electrical Engineering</a>
+                    <a href="#mechanical">Mechanical Engineering</a>
+                    <a href="#metallurgy">Metallurgy Engineering </a>
+                    <a href="#science">Science and Humanities</a>
+                    <a href="#library">Library</a>
+                    <a href="#datascience">Data Science Engineering</a>
+                    <a href="#automobile">Automobile Engineering</a>
+                </div>
+            </div>
+
+            <!-- Facilities & Others -->
+            <div class="menu-card">
+                <div class="menu-header" onclick="toggleMenu('facilities')">
+                    <h3>🏢 Facilities & Others</h3>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="menu-content" id="facilities">
+                    <a href="#faq">FAQ</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Facilities Section -->
+        <section class="facilities-section">
+            <h2 class="section-title">FACILITIES</h2>
+            <div class="facilities-grid">
+                <div class="facility-item">
+                    <div class="facility-icon">🏠</div>
+                    <p>Hostel</p>
+                </div>
+                <div class="facility-item">
+                    <div class="facility-icon">📚</div>
+                    <p>Central Library</p>
+                </div>
+                <div class="facility-item">
+                    <div class="facility-icon">💻</div>
+                    <p>Computer Lab</p>
+                </div>
+                <div class="facility-item">
+                    <div class="facility-icon">🔬</div>
+                    <p>Laboratories</p>
+                </div>
+                <div class="facility-item">
+                    <div class="facility-icon">⚽</div>
+                    <p>Sports</p>
+                </div>
+                <div class="facility-item">
+                    <div class="facility-icon">🎭</div>
+                    <p>Auditorium</p>
+                </div>
+                <div class="facility-item">
+                    <div class="facility-icon">🔧</div>
+                    <p>Workshop</p>
+                </div>
+                <div class="facility-item">
+                    <div class="facility-icon">🛡️</div>
+                    <p>Security</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h2 class="section-title">FAQ</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(1)">
+                        <span>Q1. What is the admission process?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer" id="faq1">
+                        <p>Admission is based on PPT and PET entrance examination and merit list.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(2)">
+                        <span>Q2. What is the fee structure?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer" id="faq2">
+                        <p>The fee structure is as follows:<br>
+                            • ₹7,770 for Unreserved (General) category students.<br>
+                            • ₹2,770 for ST, SC, and OBC students with family income below ₹1,00,000.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(3)">
+                        <span>Q3. How to get scholarship and what are its provisions?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer" id="faq3">
+                        <p>Scholarships are available based on merit and financial need. Apply through student portal.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Contact Section -->
+    <footer class="contact-section">
+        <h2 class="section-title">CONTACT US</h2>
+        <div class="contact-info">
+            <div class="contact-item">
+                <strong>📞 Phone Numbers:</strong>
+                <p>General Inquiry: +91 7762-123456</p>
+                <p>Admission Office: +91 7762-789012</p>
+                <p>Principal Office: +91 7762-345678</p>
+            </div>
+            <div class="contact-item">
+                <strong>📧 Email Addresses:</strong>
+                <p>General: info@citraigarh.edu.in</p>
+                <p>Admissions: admissions@citraigarh.edu.in</p>
+                <p>Principal: principal@citraigarh.edu.in</p>
+            </div>
+            <div class="contact-item">
+                <strong>📍 Address:</strong>
+                <p>Chhattisgarh Institute of Technology</p>
+                <p>Raigarh, Chhattisgarh - 496001</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
