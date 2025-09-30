@@ -9,7 +9,7 @@ html, body {
 
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #eeeeee 0%, #e7b292 50%, #9adb94 100%);
+  background: linear-gradient(135deg, #e7b292 0%, #eeeeee 50%, #9adb94 100%);
   min-height: 100vh;
   position: relative;
 }
