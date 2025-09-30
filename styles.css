@@ -9,17 +9,10 @@ html, body {
 
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  /* Gradient background:
-     #667eea (soft blue, left/top),
-     #764ba2 (purple, center),
-     #f093fb (light pink, right/bottom)
-     for a modern, vibrant look */
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  background: linear-gradient(135deg, #eeeeee 0%, #e7b292 50%, #9adb94 100%);
   min-height: 100vh;
   position: relative;
 }
-
-/* Added animated background overlay for more attractive look */
 body::before {
   content: "";
   position: fixed;
@@ -28,12 +21,11 @@ body::before {
   width: 100%;
   height: 100%;
   background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(182, 126, 158, 0.3) 0%, transparent 50%),
     radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
   z-index: -1;
   opacity: 1;
 }
-
 /* Move keyframes to top-level */
 @keyframes backgroundShift {
   0% {
